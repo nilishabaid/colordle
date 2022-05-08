@@ -4,8 +4,13 @@ h1 {
   color: white;
   font-family: Helvetica, sans-serif;
   z-index: 2;
+  /* display: inline-block; */
   /* text-decoration: line-through;
   text-decoration-color: red; */
+}
+
+button {
+  float: right;
 }
 
 .header-line {
