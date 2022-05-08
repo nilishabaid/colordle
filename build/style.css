@@ -1,0 +1,115 @@
+h1 {
+  text-align: center;
+  background: rgb(24, 24, 24);
+  color: white;
+  font-family: Helvetica, sans-serif;
+  z-index: 2;
+  /* text-decoration: line-through;
+  text-decoration-color: red; */
+}
+
+.header-line {
+  /* background-color: rgb(24, 24, 24); */
+  background-color: rgb(100, 100, 100);
+  width: 100%;
+  height: 7px;
+  z-index: 0;
+  border: none;
+
+  position: absolute;
+  top: 2.5rem;
+}
+
+body {
+  background: rgb(24, 24, 24);
+}
+
+.alert-message {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  color: white;
+  /* background-color: blue; */
+
+  font-family: Helvetica, sans-serif;
+  /* height: 1.1rem;
+  width: 20rem; */
+}
+
+#game-board {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.val-box {
+  font-family: Helvetica, sans-serif;
+  z-index: 2;
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(48, 48, 48);
+  color: white;
+  margin: 4px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  height: 3.5rem;
+  width: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.filled-box {
+  background-color: rgb(80, 80, 80);
+}
+
+.current-box {
+  border-style: solid;
+  border-color: rgb(80, 80, 80);
+}
+
+.val-row {
+  display: flex;
+}
+
+.color-line {
+  background-color: rgb(36, 36, 36);
+  width: 100%;
+  height: 7px;
+  /* z-index: 1; */
+  border: none;
+
+  /* position: relative;
+  top: 2.5rem; */
+}
+
+#keyboard-cont {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#keyboard-cont div {
+  display: flex;
+}
+
+.second-row {
+  margin: 0.5rem 0;
+}
+
+.keyboard-button {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: Helvetica, sans-serif;
+  padding: 1rem;
+  margin: 0 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: rgb(64, 64, 64);
+  color: white;
+}
+
