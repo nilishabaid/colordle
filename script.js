@@ -148,10 +148,12 @@ function checkGuess() {
 
         let diff = Math.abs(currentGuess[i] - rightGuess[i])
 
+
+        if (diff <= 5)
+            box.classList.add("correct-box")
+
         if (!hard) {
-            if (diff <= 5)
-                box.classList.add("correct-box")
-            else if (currentGuess[i] < rightGuess[i]) {
+            if (currentGuess[i] < rightGuess[i]) {
                 box.classList.add("blue-box")
                 box.textContent += '↑'
             }
@@ -160,6 +162,7 @@ function checkGuess() {
                 box.textContent += '↓'
             }
         }
+
 
         if (diff > 5)
             correct = false
@@ -227,7 +230,7 @@ function resetAlert() {
 }
 
 function setHard() {
-    if(hard == true)
+    if (hard == true)
         return;
 
     hard = true;
@@ -239,7 +242,7 @@ function setHard() {
 }
 
 function setNormal() {
-    if(hard == false)
+    if (hard == false)
         return;
 
     hard = false;
@@ -272,7 +275,7 @@ function resetBoard() {
             box.classList.remove("filled-box", "red-box", "blue-box", "correct-box")
         }
 
-        let line = document.getElementsByClassName("color-line")[i+1]
+        let line = document.getElementsByClassName("color-line")[i + 1]
         line.style.backgroundColor = "rgb(36, 36, 36)"
     }
 }
