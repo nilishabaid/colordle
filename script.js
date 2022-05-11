@@ -157,7 +157,7 @@ function checkGuess() {
                 box.classList.add("blue-box")
                 box.textContent += '↑'
             }
-            else {
+            else if (currentGuess[i] > rightGuess[i]) {
                 box.classList.add("red-box")
                 box.textContent += '↓'
             }
