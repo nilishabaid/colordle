@@ -6,9 +6,10 @@ let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
 let nextVal = 0;
 let rightGuess = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
-console.log(rightGuess)
+// console.log(rightGuess)
 let numInBox = 0;
 let currentVal = 0;
+let hard = false;
 
 function initBoard() {
     let board = document.getElementById("game-board");
@@ -40,33 +41,35 @@ function initBoard() {
     message.textContent = "."
     message.style.color = "rgb(24, 24, 24)"
     board.appendChild(message)
+    let normalButton = document.getElementsByClassName("mode")[1]
+    normalButton.style.backgroundColor = "rgb(64, 64, 64)"
 }
 
-initBoard()
+// initBoard()
 
-document.addEventListener("keyup", (e) => {
+// document.addEventListener("keyup", (e) => {
 
-    if (guessesRemaining === 0) {
-        return
-    }
+//     if (guessesRemaining === 0) {
+//         return
+//     }
 
-    let pressedKey = String(e.key)
-    if (pressedKey === "Backspace") {
-        deleteVal()
-        return
-    }
+//     let pressedKey = String(e.key)
+//     if (pressedKey === "Backspace") {
+//         deleteVal()
+//         return
+//     }
 
-    if (pressedKey === "Enter") {
-        checkGuess()
-        return
-    }
+//     if (pressedKey === "Enter") {
+//         checkGuess()
+//         return
+//     }
 
-    // make sure pressedKey is a digit
-    if (isFinite(parseInt(pressedKey)))
-        insertVal(parseInt(pressedKey))
-    else
-        return
-})
+//     // make sure pressedKey is a digit
+//     if (isFinite(parseInt(pressedKey)))
+//         insertVal(parseInt(pressedKey))
+//     else
+//         return
+// })
 
 function insertVal(pressedKey) {
     resetAlert()
@@ -79,12 +82,10 @@ function insertVal(pressedKey) {
     currentVal += pressedKey
     animateCSS(box, "pulse")
 
-    if (Math.floor(currentVal / 100) === 0 && numInBox == 2) {
-        if(currentVal == 0)
-            box.textContent = '000'
-        else
-            box.textContent = '0' + currentVal
-    }
+    if (box.textContent[0] == 0 && box.textContent[1] == 0)
+        box.textContent = '00' + currentVal
+    else if (box.textContent[0] == 0)
+        box.textContent = '0' + currentVal
     else
         box.textContent = currentVal
 
@@ -146,15 +147,18 @@ function checkGuess() {
         //let valPosition = rightGuess.indexOf(currentGuess[i])
 
         let diff = Math.abs(currentGuess[i] - rightGuess[i])
-        if (diff <= 5)
-            valColor = 'rgb(25, 148, 21)' // green
-        else if (currentGuess[i] < rightGuess[i]) {
-            valColor = 'rgb(0, 64, 214)' // blue
-            box.textContent += '↑'
-        }
-        else {
-            valColor = 'rgb(209, 21, 21)' // red
-            box.textContent += '↓'
+
+        if (!hard) {
+            if (diff <= 5)
+                box.classList.add("correct-box")
+            else if (currentGuess[i] < rightGuess[i]) {
+                box.classList.add("blue-box")
+                box.textContent += '↑'
+            }
+            else {
+                box.classList.add("red-box")
+                box.textContent += '↓'
+            }
         }
 
         if (diff > 5)
@@ -222,20 +226,71 @@ function resetAlert() {
     message.style.color = "rgb(24, 24, 24)"
 }
 
-document.getElementById("keyboard-cont").addEventListener("click", (e) => {
-    const target = e.target
+function setHard() {
+    if(hard == true)
+        return;
 
-    if (!target.classList.contains("keyboard-button")) {
-        return
+    hard = true;
+    let normalButton = document.getElementsByClassName("mode")[1]
+    let hardButton = document.getElementsByClassName("mode")[0]
+    hardButton.style.backgroundColor = "rgb(64, 64, 64)"
+    normalButton.style.backgroundColor = "rgb(36, 36, 36)"
+    resetBoard();
+}
+
+function setNormal() {
+    if(hard == false)
+        return;
+
+    hard = false;
+    let normalButton = document.getElementsByClassName("mode")[1]
+    let hardButton = document.getElementsByClassName("mode")[0]
+    normalButton.style.backgroundColor = "rgb(64, 64, 64)"
+    hardButton.style.backgroundColor = "rgb(36, 36, 36)"
+    resetBoard();
+}
+
+function resetBoard() {
+    resetAlert()
+    guessesRemaining = NUMBER_OF_GUESSES;
+    currentGuess = [];
+    nextVal = 0;
+    numInBox = 0;
+    currentVal = 0;
+    // rightGuess = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
+
+    let elem = document.getElementsByClassName("color-line")[0];
+    // elem.style.backgroundColor = 'rgb(' + rightGuess[0] + ', ' + rightGuess[1] + ', ' + rightGuess[2] + ')';
+
+    for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
+        let row = document.getElementsByClassName("val-row")[i]
+
+        for (let j = 0; j < 3; j++) {
+            let box = row.children[j]
+            box.textContent = ""
+            //if(box.classList.contains("filled-box"))
+            box.classList.remove("filled-box", "red-box", "blue-box", "correct-box")
+        }
+
+        let line = document.getElementsByClassName("color-line")[i+1]
+        line.style.backgroundColor = "rgb(36, 36, 36)"
     }
-    let key = target.textContent
+}
 
-    if (key === "Del") {
-        key = "Backspace"
-    }
+// document.getElementById("keyboard-cont").addEventListener("click", (e) => {
+//     const target = e.target
 
-    document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
-})
+//     if (!target.classList.contains("keyboard-button")) {
+//         return
+//     }
+//     let key = target.textContent
+
+//     if (key === "Del") {
+//         key = "Backspace"
+//     }
+
+//     document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
+// })
 
 const animateCSS = (element, animation, prefix = 'animate__') =>
     // We create a Promise and return it

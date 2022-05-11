@@ -9,20 +9,22 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script type="text/javascript" src="script.js"></script>
 </head>
 
 <body>
     <!-- <div class="header-line"></div> -->
     <div id="main">
         <h1> colordle </h1>
-        <button>Button</button>
+        <div>
+            <button class="mode" onClick="setHard()">hard</button>
+            <button class="mode" onClick="setNormal()">normal</button>
+        </div>
     </div>
 
     <div id="game-board">
 
     </div>
-
-    <!-- <div id="alert-message"></div> -->
 
     <div id="keyboard-cont">
         <div class="first-row">
@@ -42,6 +44,50 @@
             <button class="keyboard-button">Enter</button>
         </div>
     </div>
+
+    <script>
+        initBoard();
+
+        document.getElementById("keyboard-cont").addEventListener("click", (e) => {
+            const target = e.target
+
+            if (!target.classList.contains("keyboard-button")) {
+                return
+            }
+            let key = target.textContent
+
+            if (key === "Del") {
+                key = "Backspace"
+            }
+
+            document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
+        })
+
+
+        document.addEventListener("keyup", (e) => {
+
+            if (guessesRemaining === 0) {
+                return
+            }
+
+            let pressedKey = String(e.key)
+            if (pressedKey === "Backspace") {
+                deleteVal()
+                return
+            }
+
+            if (pressedKey === "Enter") {
+                checkGuess()
+                return
+            }
+
+            // make sure pressedKey is a digit
+            if (isFinite(parseInt(pressedKey)))
+                insertVal(parseInt(pressedKey))
+            else
+                return
+        })
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
