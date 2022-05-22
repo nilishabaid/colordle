@@ -1,6 +1,3 @@
-// const jsdom = require("jsdom");
-// global.document = new JSDOM(index.html).window.document;
-
 const NUMBER_OF_GUESSES = 6;
 let guessesRemaining = NUMBER_OF_GUESSES;
 let currentGuess = [];
@@ -11,12 +8,16 @@ let numInBox = 0;
 let currentVal = 0;
 let hard = false;
 
+class RightGuess {
+    static guess = [0, 0, 0]
+}
+
 function initBoard() {
     let board = document.getElementById("game-board");
 
     var elem = document.createElement("hr");
     elem.className = "color-line";
-    elem.style.backgroundColor = 'rgb(' + rightGuess[0] + ', ' + rightGuess[1] + ', ' + rightGuess[2] + ')';
+    elem.style.backgroundColor = 'rgb(' + RightGuess.guess[0] + ', ' + RightGuess.guess[1] + ', ' + RightGuess.guess[2] + ')';
     board.appendChild(elem);
 
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
@@ -238,7 +239,7 @@ function setHard() {
     let hardButton = document.getElementsByClassName("mode")[0]
     hardButton.style.backgroundColor = "rgb(64, 64, 64)"
     normalButton.style.backgroundColor = "rgb(36, 36, 36)"
-    resetBoard();
+    //resetBoard();
 }
 
 function setNormal() {
@@ -250,7 +251,7 @@ function setNormal() {
     let hardButton = document.getElementsByClassName("mode")[0]
     normalButton.style.backgroundColor = "rgb(64, 64, 64)"
     hardButton.style.backgroundColor = "rgb(36, 36, 36)"
-    resetBoard();
+    //resetBoard();
 }
 
 function resetBoard() {
@@ -262,7 +263,7 @@ function resetBoard() {
     currentVal = 0;
     // rightGuess = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
 
-    let elem = document.getElementsByClassName("color-line")[0];
+    // let elem = document.getElementsByClassName("color-line")[0];
     // elem.style.backgroundColor = 'rgb(' + rightGuess[0] + ', ' + rightGuess[1] + ', ' + rightGuess[2] + ')';
 
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
@@ -278,6 +279,32 @@ function resetBoard() {
         let line = document.getElementsByClassName("color-line")[i + 1]
         line.style.backgroundColor = "rgb(36, 36, 36)"
     }
+}
+
+// checks if one day has passed. 
+function hasOneDayPassed() {
+    // get today's date. eg: "7/37/2007"
+    var d = new Date().toLocaleDateString();
+
+    // if there's a date in localstorage and it's equal to the above: 
+    // inferring a day has yet to pass since both dates are equal.
+    if (localStorage.getItem("date") == d)
+        return false;
+
+    // this portion of logic occurs when a day has passed
+    localStorage.setItem("date", d);
+    return true;
+}
+
+
+// some function which should run once a day
+function runOncePerDay() {
+    if (!hasOneDayPassed())
+        return false;
+
+    rightGuess = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)];
+    let elem = document.getElementsByClassName("color-line")[0];
+    elem.style.backgroundColor = 'rgb(' + rightGuess[0] + ', ' + rightGuess[1] + ', ' + rightGuess[2] + ')';
 }
 
 // document.getElementById("keyboard-cont").addEventListener("click", (e) => {
