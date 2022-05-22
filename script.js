@@ -10,6 +10,10 @@ let hard = false;
 
 class RightGuess {
     static guess = [0, 0, 0]
+
+    static resetGuess() {
+        RightGuess.guess = [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
+    }
 }
 
 function initBoard() {
@@ -17,6 +21,8 @@ function initBoard() {
 
     var elem = document.createElement("hr");
     elem.className = "color-line";
+
+    RightGuess.resetGuess()
     elem.style.backgroundColor = 'rgb(' + RightGuess.guess[0] + ', ' + RightGuess.guess[1] + ', ' + RightGuess.guess[2] + ')';
     board.appendChild(elem);
 
